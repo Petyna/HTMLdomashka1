@@ -1,0 +1,12 @@
+/* Custom styles to enhance responsiveness */
+.card-img-top {
+    object-fit: cover;
+    height: 300px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .card-img-top {
+        height: 200px;
+    }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/product-details.css">
+</head>
+<body>
+<header class="header text-center my-4">
+  <h1>Деталі товару</h1>
+</header>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10 col-12">
+      <div class="card">
+        <img id="product-image" class="card-img-top" src="#" alt="Product Image">
+        <div class="card-body">
+          <h5 id="product-title" class="card-title"></h5>
+          <p id="product-price" class="card-text"></p>
+          <p id="product-id" class="card-text"></p>
+          <p id="product-description" class="card-text"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Example of how you might populate the details dynamically with JavaScript
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id');
+
+  // Example product data (in a real app, you'd fetch this from a server)
+  const products = {
+    1: { title: "Помідор", price: "100", img: "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcThdtogrPsOcQeuKm62SJPEtDkgK6_WNZ02ppcOec5gepVlso_J", description: "Свежий помідор." },
+    2: { title: "Огірок", price: "110", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbhzvISLgheqyPwGoctgS-wg70nVdmTBywX5Q_u6dpPNA8385g", description: "Хрусткий огірок." },
+    3: { title: "Перець", price: "120", img: "https://zemliak.com/uploads/all/69/85/a8/6985a82a999426278959cb89f0b91972.jpg", description: "Свіжий перець." },
+    4: { title: "Перець чілі", price: "150", img: "https://freshmart.com.ua/storage/web/cache/product/32/peretsy-chili-chervoniy-import-100g.jpg?w=912&h=690&fit=resize&q=80&fm=pjpg&t=1627478620&s=735f8db78b7ff05502f5cc87a18b6d90", description: "Гострий перець чілі." },
+    5: { title: "Молоко", price: "50", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqfOTeBd1jkrcrBrXumh8k_wuSOW8MaWkqvg&s", description: "Свіже молоко." },
+    6: { title: "Сир", price: "200", img: "https://foodfestival.com.ua/image/cache/catalog/bakaleya/00113-1000x1000.jpg", description: "Домашній сир." },
+    7: { title: "Йогурт", price: "80", img: "https://img2.zakaz.ua/30082022.1661869070.ad72436478c_2022-08-30_Tatyana_L/30082022.1661869070.SNCPSG10.obj.0.1.jpg.oe.jpg.pf.jpg.1350nowm.jpg.1350x.jpg", description: "Корисний йогурт." }
+  };
+
+  if (products[productId]) {
+    document.getElementById('product-title').textContent = products[productId].title;
+    document.getElementById('product-price').textContent = `Ціна: ${products[productId].price}`;
+    document.getElementById('product-id').textContent = `ID: ${productId}`;
+    document.getElementById('product-description').textContent = products[productId].description;
+    document.getElementById('product-image').src = products[productId].img;
+  } else {
+    document.getElementById('product-title').textContent = "Товар не знайдено";
+  }
+</script>
+</body>
+</html>

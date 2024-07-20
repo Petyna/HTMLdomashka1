@@ -1,0 +1,110 @@
+$border-color: #315ba8;
+$background-color: #8ca4a8;
+
+.my-container {
+  padding: 0;
+  margin:auto;
+  width: 1280px;
+
+  .my-center {
+    text-align: center;
+  }
+}
+
+.my-table {
+  //border: solid 1px $border-color;
+  width: 100%;
+  border-collapse: collapse;
+  border-color: #dee2e6;
+  border-spacing: 2px;
+
+  thead {
+    th {
+      font-weight: bold;
+    }
+  }
+  th, td {
+    text-align: left;
+    padding: .5rem;
+    border: #dee2e6 solid 0;
+    border-bottom-width: 1px;
+  }
+}
+
+/* Встановлюємо загальний шрифт для всього документу */
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+/* Modal container */
+.modal {
+  display: none;
+  position: fixed;
+  width: 80%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 50px;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  border-radius: 10px;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Open button */
+#openModalBtn {
+  margin: 30px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: 'Verdana', sans-serif; /* Змінюємо шрифт кнопки */
+  border: none; /* Видаляємо обводку */
+  outline: none; /* Видаляємо обведення */
+  background-color: #4CAF50; /* Задаємо колір фону */
+  color: white; /* Задаємо колір тексту */
+  border-radius: 5px; /* Додаємо заокруглені краї */
+}
+
+#openModalBtn:hover {
+  background-color: #45a049; /* Зміна кольору фону при наведенні */
+}
+
+img {
+  max-width: 200px; /* Максимальна ширина зображення */
+  height: 200px; /* Автоматичне налаштування висоти */
+  object-fit: cover;
+
+}
+
+.text-center {
+  margin: 20px;
+}

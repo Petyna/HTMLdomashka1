@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Конвертер валют</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/bootstrap-icons/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/exchange.css">
+</head>
+<body>
+
+<main class="my-container">
+  <div class="converter-row">
+    <div class="currency-select">
+      <label for="currency1" class="form-label">У мене є:</label>
+      <select class="form-control" id="currency1">
+        <option value="UAH">UAH</option>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+      </select>
+    </div>
+    <input type="number" class="form-control" id="val1" placeholder="Сума">
+    <div class="invalid-feedback">
+      Введіть коректне значення
+    </div>
+  </div>
+
+  <div class="reverse-btn">
+    <button class="btn btn-primary" id="reverse-btn">↔️</button>
+  </div>
+
+  <div class="converter-row">
+    <div class="currency-select">
+      <label for="currency2" class="form-label">Я отримаю:</label>
+      <select class="form-control" id="currency2">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="UAH">UAH</option>
+      </select>
+    </div>
+    <input type="number" class="form-control" id="val2" placeholder="Сума">
+    <div class="invalid-feedback">
+      Помилка конвертації
+    </div>
+  </div>
+</main>
+
+
+<script>
+// код має працювати але в мене вилазить помилка що неможливо під'єднатися до приватбанку access denied from localhost і я не розібрався як пофіксити
+
+
+  const apiUrl = 'https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5';
+  let exchangeRates = {};
+
+  document.getElementById('val1').addEventListener('input', () => convertCurrency('val1'));
+  document.getElementById('val2').addEventListener('input', () => convertCurrency('val2'));
+  document.getElementById('currency1').addEventListener('change', () => convertCurrency('val1'));
+  document.getElementById('currency2').addEventListener('change', () => convertCurrency('val1'));
+  document.getElementById('reverse-btn').addEventListener('click', reverseCurrencies);
+
+  async function fetchExchangeRates() {
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      data.forEach(rate => {
+        exchangeRates[rate.ccy] = rate;
+      });
+      console.log('Exchange rates loaded:', exchangeRates);
+    } catch (error) {
+      console.error('There has been a problem with your fetch operation:', error);
+    }
+  }
+
+  function convertCurrency(triggeredBy) {
+    const amount1 = parseFloat(document.getElementById('val1').value);
+    const amount2 = parseFloat(document.getElementById('val2').value);
+    const currency1 = document.getElementById('currency1').value;
+    const currency2 = document.getElementById('currency2').value;
+
+    if (!exchangeRates[currency1] || !exchangeRates[currency2]) {
+      console.error('Exchange rates not loaded yet');
+      return;
+    }
+
+    let rate1 = 1;
+    let rate2 = 1;
+
+    if (currency1 !== 'UAH') {
+      rate1 = parseFloat(exchangeRates[currency1].buy);
+    }
+    if (currency2 !== 'UAH') {
+      rate2 = parseFloat(exchangeRates[currency2].sale);
+    }
+
+    if (triggeredBy === 'val1' && !isNaN(amount1)) {
+      document.getElementById('val2').value = ((amount1 * rate1) / rate2).toFixed(2);
+    } else if (triggeredBy === 'val2' && !isNaN(amount2)) {
+      document.getElementById('val1').value = ((amount2 * rate2) / rate1).toFixed(2);
+    }
+  }
+  // console.log(val1);
+
+  function reverseCurrencies() {
+    const currency1 = document.getElementById('currency1');
+    const currency2 = document.getElementById('currency2');
+    const val1 = document.getElementById('val1');
+    const val2 = document.getElementById('val2');
+
+    const tempCurrency = currency1.value;
+    currency1.value = currency2.value;
+    currency2.value = tempCurrency;
+
+    const tempValue = val1.value;
+    val1.value = val2.value;
+    val2.value = tempValue;
+
+    convertCurrency('val1');
+  }
+
+  fetchExchangeRates();
+</script>
+</body>
+</html>
